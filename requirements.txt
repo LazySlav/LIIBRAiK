@@ -1,0 +1,9 @@
+asgiref==3.7.2
+django==4.2.7
+pip==23.3.1
+psycopg==3.1.12
+psycopg-binary==3.1.12
+setuptools==65.5.0
+sqlparse==0.4.4
+typing_extensions==4.8.0
+djangorestframework==3.14.0
