@@ -1,8 +1,8 @@
 import inspect
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, post_save
 from django.db import models
 import uuid
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group, PermissionsMixin
 from django.dispatch import receiver
 from django.forms import ValidationError
 from django.contrib.postgres import fields as postgres_models
@@ -17,18 +17,17 @@ Bullet-points:
 
 
 class UserManager(BaseUserManager):
-    def __field_check(*fields):
-        for field in fields:
-            if field is None:
-                raise ValidationError(
-                    f"Something went wrong when checking fields")
-        return True
 
-    def create_user(self, id=None, library_card=None, name=None, surname=None, mail=None, role=None, password=None, last_name=None):
+    def __field_check(*fields):
+        if None in fields:
+            raise ValidationError(
+                f"Something went wrong when checking fields")
+
+    def create_user(self, id=None, library_card=None, name=None, surname=None, mail=None, password=None, last_name=None, role=None):
 
         # how tf do you make proper error-handling without breaking the server?
         self.__field_check(id, library_card, name, surname,
-                           mail, role, password)
+                           mail, password)
 
         mail = self.normalize_email(mail)
         user: User = self.model(
@@ -37,17 +36,19 @@ class UserManager(BaseUserManager):
             name=name,
             surname=surname,
             mail=mail,
-            role=role,
-            last_name=last_name
+            last_name=last_name,
         )
+        # questionable, since default role is student and we can theoretically catch a forged request with role="librarian"
+        user.role = role if (role is not None) and (
+            role != "admin") else "student"
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, id=None, library_card=None, name=None, surname=None, mail=None, role=None, password=None, last_name=None):
+    def create_superuser(self, id=None, library_card=None, name=None, surname=None, mail=None, password=None, last_name=None):
 
         self.__field_check(id, library_card, name, surname,
-                           mail, role, password)
+                           mail, password)
 
         id = self.normalize_email(id)
         user: User = self.model(
@@ -56,30 +57,43 @@ class UserManager(BaseUserManager):
             name=name,
             surname=surname,
             mail=mail,
-            role=role,
-            last_name=last_name
+            last_name=last_name,
         )
         user.role = "admin"
-        print(password)
+        user.is_superuser=True
         user.set_password(password)
         user.save(using=self._db)
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     id = models.TextField(primary_key=True, default=uuid.uuid4)
     library_card = models.TextField(default="default")
     name = models.TextField()
     surname = models.TextField()
     last_name = models.TextField(null=True, blank=True)
-    role = models.TextField(default="student")
     mail = models.TextField()
     last_login = models.DateTimeField(blank=True, null=True)
-
     objects = UserManager()
+    role = models.TextField(default="student")
+    is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'id'
-    REQUIRED_FIELDS = ["library_card", "name", "surname", "role", "mail"]
+    EMAIL_FIELD = 'mail'
+    REQUIRED_FIELDS = ["library_card", "name", "surname", "mail"]
+
+    @property
+    def is_staff(self):
+        "Is the user a member of staff?"
+        return True if self.role == "admin" else False
+
+# configuring default groups is probably not supposed to be this hard, eh?
+# @receiver(post_save, sender=User)
+# def add_to_group(sender, instance: User, created, **kwargs):
+#     if created:
+#         default_group_name = 'student' if not (instance.is_staff) else 'admin'
+#         default_group = Group.objects.get_or_create(name=default_group_name)
+#         instance.groups.add(default_group)
 
 
 class Author(models.Model):
@@ -88,8 +102,6 @@ class Author(models.Model):
     name = models.TextField()
 
 # questionable code made for proper book authors deletions
-
-
 @receiver(pre_delete, sender=Author)
 def remove_author_from_books(sender, instance, **kwargs):
     books_to_delete = []
@@ -127,9 +139,8 @@ class Book(models.Model):
         self.authors = self.authors.all()[:10]
         super().save(*args, **kwargs)
 
+
 # ethically questionable practices here, folks
-
-
 class BookToAuthor(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.DO_NOTHING)

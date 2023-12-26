@@ -119,17 +119,16 @@ DATABASES = {
 #     },
 # ]
 PASSWORD_HASHERS = [
-    {
+    'django.contrib.auth.hashers.Argon2PasswordHasher'
         # * might wanna change these params in the future
-        'NAME': 'django.contrib.auth.hashers.Argon2PasswordHasher',
-        'OPTIONS': {
-            'time_cost': 2,
-            'memory_cost': 256,
-            'parallelism': 1,
-            'hash_len': 32,
-            'salt_len': 32,
-        }
-    },
+        # 'NAME': 'django.contrib.auth.hashers.Argon2PasswordHasher',
+        # 'OPTIONS': {
+        #     'time_cost': 2,
+        #     'memory_cost': 256,
+        #     'parallelism': 1,
+        #     'hash_len': 32,
+        #     'salt_len': 32,
+        # }
 ]
 
 # Internationalization
