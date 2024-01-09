@@ -82,6 +82,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'mail'
     REQUIRED_FIELDS = ["library_card", "name", "surname", "mail"]
 
+    # it's ugly that we have is_staff, is_superuser AND role params, but it is what it is, Django magic
     @property
     def is_staff(self):
         "Is the user a member of staff?"

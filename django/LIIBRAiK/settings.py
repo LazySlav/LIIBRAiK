@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$%kj&m4$$#kyklml&^o()ikcf=n97(a%wodee_=3_q(zs+lic6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
@@ -76,16 +76,20 @@ WSGI_APPLICATION = 'LIIBRAiK.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-try:
-    POSTGRES_DB = os.environ["POSTGRES_DB"]
-    POSTGRES_USER = os.environ["POSTGRES_USER"]
-    POSTGRES_PASSWORD = os.environ["POSTGRES_PASSWORD"]
-    POSTGRES_HOST = os.environ["POSTGRES_HOST"]
-    POSTGRES_PORT = os.environ["POSTGRES_PORT"]
-except KeyError:
-    raise KeyError(
-        f"There are POSTGRES_* vars that are not present, shutting down...")
-
+# try:
+#     POSTGRES_DB = os.environ["POSTGRES_DB"]
+#     POSTGRES_USER = os.environ["POSTGRES_USER"]
+#     POSTGRES_PASSWORD = os.environ["POSTGRES_PASSWORD"]
+#     POSTGRES_HOST = os.environ["POSTGRES_HOST"]
+#     POSTGRES_PORT = os.environ["POSTGRES_PORT"]
+# except KeyError:
+#     raise KeyError(
+#         f"There are POSTGRES_* vars that are not present, shutting down...")
+POSTGRES_USER = "librarian"
+POSTGRES_PASSWORD = "man1toba%"
+POSTGRES_DB = "library"
+POSTGRES_HOST = "0.0.0.0"
+POSTGRES_PORT = "5432"
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql',
