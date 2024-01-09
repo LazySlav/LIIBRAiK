@@ -1,0 +1,152 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "sysvars",
+            "type": "shell",
+            "command": "sh start.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true,
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "migrate",
+            "type": "shell",
+            "command": "${command:python.interpreterPath}",
+            "args": [
+                "django/manage.py",
+                "migrate"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+/*            "dependsOn": [
+                "sysvars"
+            ], */
+            "problemMatcher": []
+        },
+        {
+            "label": "makemigrations",
+            "type": "shell",
+            "command": "${command:python.interpreterPath}",
+            "args": [
+                "django/manage.py",
+                "makemigrations"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+/*            "dependsOn": [
+                "sysvars"
+            ], */
+            "problemMatcher": []
+        },
+        {
+            "label": "shell",
+            "type": "shell",
+            "command": "${command:python.interpreterPath}",
+            "args": [
+                "django/manage.py",
+                "shell"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+/*            "dependsOn": [
+                "sysvars"
+            ], */
+            "problemMatcher": []
+        },
+        {
+            "label": "createsuperuser",
+            "type": "shell",
+            "command": "${command:python.interpreterPath}",
+            "args": [
+                "django/manage.py",
+                "createsuperuser"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+/*            "dependsOn": [
+                "sysvars"
+            ], */
+            "problemMatcher": []
+        },
+        {
+            "label": "startapp",
+            "type": "shell",
+            "command": "${command:python.interpreterPath}",
+            "args": [
+                "django/manage.py",
+                "startapp",
+                "${input:App Name}"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+/*            "dependsOn": [
+                "sysvars"
+            ], */
+            "problemMatcher": []
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "${command:python.interpreterPath}",
+            "args": [
+                "django/manage.py",
+                "test"
+            ],
+            "group": {
+                "kind": "test",
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+/*            "dependsOn": [
+                "sysvars"
+            ], */
+            "problemMatcher": []
+        },
+        {
+            "label": "runserver",
+            "type": "shell",
+            "command": "${command:python.interpreterPath}",
+            "args": [
+                "django/manage.py",
+                "runserver"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+/*            "dependsOn": [
+                "sysvars"
+            ], */
+            "problemMatcher": []
+        }
+    ]
+}
