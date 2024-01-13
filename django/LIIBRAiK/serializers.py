@@ -34,4 +34,4 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'library_card', 'name', 'surname',
-                  'last_name', 'mail', 'last_login', 'role', 'is_active']
+                  'last_name', 'mail', 'last_login', 'role', 'is_active', 'password']
