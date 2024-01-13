@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-$%kj&m4$$#kyklml&^o()ikcf=n97(a%wodee_=3_q(zs+lic6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 try:
-    DEBUG = bool(os.environ["DEBUG"])
+    DEBUG = bool(int(os.environ["DEBUG"]))
 except KeyError:
     pass
 
@@ -164,7 +164,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
+        "rest_framework.permissions.IsAuthenticated",
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
