@@ -1,0 +1,80 @@
+//COLORS
+$primary-color-100: #EEF1FB;
+$primary-color-200: #BDC8EF;
+$primary-color-300: #8C9FE3;
+$primary-color-400: #6882DE;
+$primary-color-500: #4766D7;
+$primary-color-600: #2843A4;
+$primary-color-700: #1B3074;
+$primary-color-800: #101B42;
+$primary-color-900: #051010;
+
+$neutral-color-100: #F3F4F6;
+$neutral-color-200: #D0D4DC;
+$neutral-color-300: #ADB4C2;
+$neutral-color-400: #959FB1;
+$neutral-color-500: #667085;
+$neutral-color-600: #576175;
+$neutral-color-700: #3D4452;
+$neutral-color-800: #23272F;
+$neutral-color-900: #090A0C;
+
+$success-color-100: #EFFBF1;
+$success-color-200: #BEEEC7;
+$success-color-300: #8DE29C;
+$success-color-400: #6DD981;
+$success-color-500: #4ED06B;
+$success-color-600: #2AA23E;
+$success-color-700: #1D722B;
+$success-color-800: #114119;
+$success-color-900: #041006;
+
+$warn-color-100: #FEF9EC;
+$warn-color-200: #FBE6B1;
+$warn-color-300: #F8D377;
+$warn-color-400: #F6C751;
+$warn-color-500: #F4B81B;
+$warn-color-600: #C28E0A;
+$warn-color-700: #886307;
+$warn-color-800: #4E3904;
+$warn-color-900: #130E01;
+
+$error-color-100: #FBEEEE;
+$error-color-200: #EFBDBD;
+$error-color-300: #E38C8C;
+$error-color-400: #DB6B6B;
+$error-color-500: #D74747;
+$error-color-600: #A42828;
+$error-color-700: #741B1B;
+$error-color-800: #421010;
+$error-color-900: #110404;
+
+$color-white: #FFF;
+
+
+$padding: 4px;
+$margin: 4px;
+$border-radius: 4px;
+
+//FONTS
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$display-size-xs: 24px;
+$display-size-sm: 30px;
+$display-size-md: 36px;
+
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+@mixin text($size: $font-size-md, $color: $primary-color-900) {
+  font-size: $size;
+  line-height: 120%;
+  color: $color;
+  font-style: normal;
+
+}
