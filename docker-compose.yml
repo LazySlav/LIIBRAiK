@@ -3,27 +3,19 @@ version: '3.8'
 services:
  web:
     build: .
-    command: python3.12 manage.py runserver 0.0.0.0:8000
-    volumes:
-      - django:/app
     ports:
       - "8000:8000"
     depends_on:
       - db
-
+    env_file:
+      - .env
  db:
     image: postgres:16.1
     volumes:
-      - postgres:/var/lib/postgresql/data/
-    environment:
-    #1: worth noting that it should be using docker secrets, but then it needs additional .sh script just for echo "variable" | docker secret, which is just delaying the problem
-    #2: those vars are not local container vars per se, but rather variables available for all containers in network (idk how it works, but nonetheless)
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
+      - postgres:${POSTGRES_DATA_PATH}
+    # worth noting that we should be using docker secrets
+    env_file:
+      - .env
 
 volumes:
     postgres:
-    django:
