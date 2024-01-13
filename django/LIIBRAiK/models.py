@@ -1,7 +1,8 @@
 import inspect
-from django.db.models.signals import pre_delete, post_save
+from django.db.models.signals import pre_delete, pre_save
 from django.db import models
 import uuid
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group, PermissionsMixin
 from django.dispatch import receiver
 from django.forms import ValidationError
@@ -74,10 +75,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.TextField(null=True, blank=True)
     mail = models.TextField()
     last_login = models.DateTimeField(blank=True, null=True)
-    objects = UserManager()
     role = models.TextField(default="student")
-    is_active = models.BooleanField(default=True)
 
+    is_active = models.BooleanField(default=True)
+    objects = UserManager()
     USERNAME_FIELD = 'id'
     EMAIL_FIELD = 'mail'
     REQUIRED_FIELDS = ["library_card", "name", "surname", "mail"]
@@ -86,7 +87,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         "Is the user a member of staff?"
-        return True if self.role == "admin" else False
+        return True if self.role == "admin" or self.role == "librarian" else False
+
+
+@receiver(pre_save, sender=User)
+def hash_password(sender, instance, **kwargs):
+    if not instance.pk:
+        instance.password = make_password(instance.password)
 
 # configuring default groups is probably not supposed to be this hard, eh?
 # @receiver(post_save, sender=User)
