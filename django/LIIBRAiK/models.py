@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group,
 from django.dispatch import receiver
 from django.forms import ValidationError
 from django.contrib.postgres import fields as postgres_models
+from django.core.validators import MaxValueValidator
 
 """
 Bullet-points:
@@ -77,7 +78,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_login = models.DateTimeField(blank=True, null=True)
     role = models.TextField(default="student")
 
-    is_active = models.BooleanField(default=True)
     objects = UserManager()
     USERNAME_FIELD = 'id'
     EMAIL_FIELD = 'mail'
@@ -129,7 +129,7 @@ class Publisher(models.Model):
         primary_key=True, default=uuid.uuid4)
     name = models.TextField()
 
-
+# I have no idea how to put a cap over amount of authors
 class Book(models.Model):
     book_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4)
@@ -145,10 +145,6 @@ class Book(models.Model):
         models.IntegerField(null=True, blank=True), size=3)
     cover = models.FileField(null=True, blank=True)
     pdf = models.FileField(null=True, blank=True)
-
-    def save(self, *args, **kwargs):
-        self.authors = self.authors.all()[:10]
-        super().save(*args, **kwargs)
 
 
 # ethically questionable practices here, folks

@@ -16,7 +16,8 @@ class PublisherSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    authors = AuthorSerializer(many=True)
+    authors = serializers.PrimaryKeyRelatedField(
+        queryset=Author.objects.all(), many=True)
 
     class Meta:
         model = Book
