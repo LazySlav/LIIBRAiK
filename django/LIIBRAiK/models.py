@@ -84,6 +84,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ["library_card", "name", "surname", "mail"]
 
     @property
+    def is_active(self):
+        return True
+
+    @property
     def is_staff(self):
         "Is the user a member of staff?"
         return True if self.role == "admin" else False

@@ -44,10 +44,8 @@ class UserSerializer(serializers.ModelSerializer):
             plain_password, secrets.token_hex(16))
         return encrypted_password
 
-    def create(self, validated_data):
-        self.__passwordify(validated_data)
-        return User.objects.create(**validated_data)
-
-    def update(self, instance: User, validated_data):
-        self.__passwordify(validated_data)
-        return super().update(instance, validated_data)
+    def save(self):
+        # for some god forsaken reason is_staff doesn't set to True by default, even tho in User model it is written properly, hence:
+        # self.validated_data["is_staff"] = True
+        self.__passwordify(self.validated_data)
+        super().save()
