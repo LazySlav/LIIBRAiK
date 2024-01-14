@@ -1,11 +1,13 @@
 <script >
 import VBreadcrumbs from "@/components/v-breadcrumbs.vue";
 import VBlock from "@/components/v-block.vue";
+import VButton from "@/components/v-button.vue";
 export default {
   name: 'profileView',
   components: {
     VBreadcrumbs,
     VBlock,
+    VButton
   },
   data () {
     return {
@@ -79,6 +81,12 @@ export default {
             </div>
             <img src="@/assets/img/profile__photo2.jpeg" alt="">
           </div>
+          <div class="profile__exit">
+            <v-button
+              class-color="error"
+              class-size="mid"
+            >Выйти</v-button>
+          </div>
         </div>
         <div class="profile-view__col">
           <v-block class="profile__info">
@@ -104,6 +112,9 @@ export default {
 <style lang="scss">
 @import "@/assets/css/vars";
 
+.profile__exit {
+  margin-top: $margin*6;
+}
 .profile-view {
   width: 100%;
   &__content {

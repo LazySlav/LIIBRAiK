@@ -33,6 +33,7 @@ export default {
     text-align: left;
     height: 100%;
     display: block;
+    position: relative;
   }
   td:first-child &__block, th:first-child &__block {
     padding-left: $padding*8;

@@ -3,12 +3,16 @@ import VBreadcrumbs from "@/components/v-breadcrumbs.vue";
 import VTable from "@/components/v-table.vue";
 import VInput from "@/components/v-input.vue";
 import VButton from "@/components/v-button.vue";
+import VPagination from "@/components/v-pagination.vue";
+import VSortingArrow from "@/components/v-sorting-arrow.vue";
 export default {
   name: 'catalogView',
   components: {
     VButton, VInput,
     VBreadcrumbs,
     VTable,
+    VPagination,
+    VSortingArrow
   },
   data () {
     return {
@@ -16,12 +20,20 @@ export default {
       showAdvancedFilterCont: false,
       showAdvancedFilterLink: 'Расширенный поиск',
 
+      paginationChange: 0,
+      paginationCurrentPage: 1,
+      paginationPageCount: 20,
+      paginationDisplayCount: 7,
+
       valueTitle: '',
       isErrorTitle: false,
       valueAuthor: '',
       valueYear: '',
       valuePlace: '',
       valueVolume: '',
+
+      sortingValue: '',
+      activeButton: null,
 
       breadcrumbs: [
         {
@@ -150,12 +162,20 @@ export default {
         this.showAdvancedFilterLink = 'Скрыть расширенный поиск';
       }
     },
-    formSubmit(event) {
-      console.log(this.valueTitle)
-      if (this.valueTitle === '') {
-        event.preventDefault()
-      }
-    }
+    formSubmit() {
+      // console.log(this.valueTitle)
+      // if (this.valueTitle === '') {
+      //   event.preventDefault()
+      // }
+    },
+    sorting(value) {
+      console.log(value)
+      this.sortingValue = value;
+
+    },
+    setActiveButton(buttonNumber) {
+      this.activeButton = buttonNumber;
+    },
   }
 }
 </script>
@@ -202,7 +222,7 @@ export default {
             </div>
             <div class="v-catalog-filters__head-col">
               <v-button
-                  @click="formSubmit"
+                  @click.prevent="formSubmit"
                   class-size="mid"
                   class-color="primary"
               >Найти</v-button>
@@ -251,31 +271,116 @@ export default {
             <th>
               <div class="v-table__block">
                 Название
+                <div class="sorting-block">
+                  <v-sorting-arrow
+                    v-model="sortingValue"
+                    newValue="title-up"
+                    :isActive="activeButton === 1"
+                    @click="setActiveButton(1)"
+                  />
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="title-down"
+                      :isActive="activeButton === 2"
+                      @click="setActiveButton(2)"
+                  />
+                </div>
               </div>
+
             </th>
             <th>
               <div class="v-table__block">
                 Автор
+                <div class="sorting-block">
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="author-up"
+                      :isActive="activeButton === 3"
+                      @click="setActiveButton(3)"
+                  />
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="author-down"
+                      :isActive="activeButton === 4"
+                      @click="setActiveButton(4)"
+                  />
+                </div>
               </div>
             </th>
             <th>
               <div class="v-table__block">
                 Год и место издания
+                <div class="sorting-block">
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="year-up"
+                      :isActive="activeButton === 5"
+                      @click="setActiveButton(5)"
+                  />
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="year-down"
+                      :isActive="activeButton === 6"
+                      @click="setActiveButton(6)"
+                  />
+                </div>
               </div>
             </th>
             <th>
               <div class="v-table__block">
                 Объем
+                <div class="sorting-block">
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="volume-up"
+                      :isActive="activeButton === 7"
+                      @click="setActiveButton(7)"
+                  />
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="volume-down"
+                      :isActive="activeButton === 8"
+                      @click="setActiveButton(8)"
+                  />
+                </div>
               </div>
             </th>
             <th>
               <div class="v-table__block">
                 Наличие
+                <div class="sorting-block">
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="availability-up"
+                      :isActive="activeButton === 9"
+                      @click="setActiveButton(9)"
+                  />
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="availability-down"
+                      :isActive="activeButton === 10"
+                      @click="setActiveButton(10)"
+                  />
+                </div>
               </div>
             </th>
             <th>
               <div class="v-table__block">
                 Идентификатор
+                <div class="sorting-block">
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="id-up"
+                      :isActive="activeButton === 11"
+                      @click="setActiveButton(11)"
+                  />
+                  <v-sorting-arrow
+                      v-model="sortingValue"
+                      newValue="id-down"
+                      :isActive="activeButton === 12"
+                      @click="setActiveButton(12)"
+                  />
+                </div>
               </div>
             </th>
           </tr>
@@ -334,7 +439,14 @@ export default {
         </v-table>
       </div>
       <p v-else>Список книг пуст</p>
-      <div class="catalog__pagination"></div>
+      <div class="catalog__pagination">
+        <v-pagination
+          :currentPage=paginationCurrentPage
+          :pageCount=paginationPageCount
+          :displayCount=paginationDisplayCount
+          v-model="paginationCurrentPage"
+        />
+      </div>
     </div>
 
   </div>
@@ -342,6 +454,19 @@ export default {
 
 <style lang="scss">
 @import "@/assets/css/vars";
+.sorting-block {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 12px;
+  position: absolute;
+  right: $padding*2;
+  top: 10px;
+  transform: translateY(-50%);
+
+
+}
 .v-catalog-filters {
   padding: $padding*3 0;
 

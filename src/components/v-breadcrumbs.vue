@@ -12,14 +12,13 @@
 
 <template>
   <div class="v-breadcrumbs">
-    <router-link
+    <div
         v-for="breadcrumb in breadcrumbs"
         v-bind:key="breadcrumb.name"
-        :to="`${breadcrumb.path}`"
         class="v-breadcrumbs__item"
     >
       {{ breadcrumb.name }}
-    </router-link>
+    </div>
   </div>
 
 </template>
@@ -44,17 +43,16 @@
     position: relative;
     @include text($size: $font-size-sm, $color: $primary-color-900);
     font-weight: 500;
-    cursor: pointer;
     transition: .4s;
     max-width: 75%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
-    &:hover {
-      color: $primary-color-500;
-      transition: .3s;
-    }
+    //&:hover {
+    //  color: $primary-color-500;
+    //  transition: .3s;
+    //}
     &:active {
       color: $primary-color-800;
       transition: .2s;
@@ -72,7 +70,7 @@
       right: 0;
     }
 
-    &.router-link-active {
+    &:last-child {
       color: $neutral-color-400;
       padding-right: 0;
       cursor: default;
