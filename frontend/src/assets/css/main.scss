@@ -1,0 +1,66 @@
+@import "@/assets/css/vars";
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  font-family: 'Arial';
+  text-decoration: none;
+}
+h1 {
+  color: $primary-color-900;
+  font-weight: 500;
+  font-size: $display-size-md;
+  line-height: 120%;
+  font-style: normal;
+  padding: $padding*3 0;
+}
+h2 {
+  color: $primary-color-900;
+  font-size: $display-size-sm;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+  padding: $padding*3 0;
+}
+h3 {
+  color: $primary-color-900;
+  font-size: $display-size-xs;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  padding: $padding*3 0;
+}
+p {
+  color: $primary-color-900;
+  font-size: $font-size-md;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  padding: $padding 0;
+}
+ul {
+
+}
+ol {
+
+}
+a {
+  @include text($size: $font-size-md, $color: $primary-color-500);
+  transition: .4s;
+  &:hover {
+    transition: .3s;
+    color: $primary-color-600;
+  }
+  &:active {
+    transition: .2s;
+    color: $primary-color-700;
+  }
+}
+
+.color-error {
+  color: $error-color-500;
+}
+.color-success {
+  color: $success-color-500;
+}
