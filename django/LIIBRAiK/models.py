@@ -1,5 +1,5 @@
 import inspect
-from django.db.models.signals import pre_delete, pre_save
+from django.db.models.signals import pre_delete, pre_save, post_save
 from django.db import models
 import uuid
 from django.contrib.auth.hashers import make_password
@@ -83,25 +83,24 @@ class User(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'mail'
     REQUIRED_FIELDS = ["library_card", "name", "surname", "mail"]
 
-    # it's ugly that we have is_staff, is_superuser AND role params, but it is what it is, Django magic
     @property
     def is_staff(self):
         "Is the user a member of staff?"
-        return True if self.role == "admin" or self.role == "librarian" else False
+        return True if self.role == "admin" else False
 
 
+# I'm not sure if it's possible to add user to group in pre_save, so let it be post_save
+@receiver(post_save, sender=User)
+def assign_user_group(sender, instance: User, *args, **kwargs):
+    match instance.role:
+        case 'admin': instance.is_superuser == True
+        case 'librarian': Group.objects.get(name="librarians").user_set.add(instance)
+        case 'student': Group.objects.get(name="students").user_set.add(instance)
+
+# setiously, tho, I feel like this is not a proper way to auto-hash password on user creation
 @receiver(pre_save, sender=User)
-def hash_password(sender, instance, **kwargs):
-    if not instance.pk:
-        instance.password = make_password(instance.password)
-
-# configuring default groups is probably not supposed to be this hard, eh?
-# @receiver(post_save, sender=User)
-# def add_to_group(sender, instance: User, created, **kwargs):
-#     if created:
-#         default_group_name = 'student' if not (instance.is_staff) else 'admin'
-#         default_group = Group.objects.get_or_create(name=default_group_name)
-#         instance.groups.add(default_group)
+def hash_password(sender, instance: User, **kwargs):
+    instance.password = make_password(instance.password)
 
 
 class Author(models.Model):
