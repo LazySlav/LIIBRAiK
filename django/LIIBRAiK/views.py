@@ -5,7 +5,6 @@ from rest_framework import permissions, viewsets
 from .models import *
 from .serializers import *
 from django.contrib.auth.hashers import Argon2PasswordHasher
-from .permissions import *
 from rest_framework import request
 
 
