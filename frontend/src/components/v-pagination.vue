@@ -45,7 +45,7 @@ export default {
       class-color="primary"
       class-size="small"
       class="v-pagination__button first-button"
-      :class-disabled="(currentPage === 1)? 'disabled': ''"
+      :class="{ disabled: currentPage === 1 }"
       @click="goToPage(currentPage - 1)"
     >
       <img src="@/assets/img/icon_arrow_white.svg" alt="">
@@ -56,7 +56,7 @@ export default {
       class-color="primary"
       class-size="small"
       class="v-pagination__button"
-      :class="(page === currentPage)? 'current-page': ''"
+      :class="{ disabled: currentPage === page }"
       @click="goToPage(page)"
     >{{ page }}</v-button>
 

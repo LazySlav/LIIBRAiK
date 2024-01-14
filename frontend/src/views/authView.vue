@@ -4,6 +4,7 @@ import VBlock from "@/components/v-block.vue";
 import VInput from "@/components/v-input.vue";
 import VButton from "@/components/v-button.vue";
 import router from "@/router/router";
+import axios from 'axios';
 export default {
   name: 'authView',
   components: {
@@ -25,6 +26,23 @@ export default {
       } else {
         this.formValid = true;
         router.push('/profile')
+      }
+    },
+
+    async sendPostRequest() {
+      try {
+        const response = await axios.post('/auth/login', {}, {
+          auth: {
+            username: 'uname',
+            password: 'pass',
+          }
+        });
+
+        console.log('Ответ от сервера:', response.data);
+        router.push('/profile')
+      } catch (error) {
+        console.error('Ошибка при отправке POST запроса:', error);
+
       }
     },
   }
@@ -64,7 +82,7 @@ export default {
                 class-color="primary"
                 class-size="large"
 
-                @click="formSubmit"
+                @click.prevent="sendPostRequest"
             >Войти</v-button>
           </div>
         </form>

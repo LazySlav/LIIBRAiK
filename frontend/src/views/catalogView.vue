@@ -6,6 +6,7 @@ import VButton from "@/components/v-button.vue";
 import VPagination from "@/components/v-pagination.vue";
 import VSortingArrow from "@/components/v-sorting-arrow.vue";
 import VPopupCreateBook from "@/components/v-popup-create-book.vue";
+import axios from "axios";
 export default {
   name: 'catalogView',
   components: {
@@ -162,12 +163,13 @@ export default {
           availability: true,
         },
       ],
+
+      responseData: null,
     }
   },
   methods: {
     filterHandler() {
-      const advancedFilter = document.querySelector('#advancedFilterCont');
-      console.log(advancedFilter);
+
       if (this.showAdvancedFilterCont) {
         this.showAdvancedFilterCont = false;
         this.showAdvancedFilterLink = 'Расширенный поиск';
@@ -178,15 +180,10 @@ export default {
       }
     },
     formSubmit() {
-      // console.log(this.valueTitle)
-      // if (this.valueTitle === '') {
-      //   event.preventDefault()
-      // }
+
     },
     sorting(value) {
-      console.log(value)
       this.sortingValue = value;
-
     },
     setActiveButton(buttonNumber) {
       this.activeButton = buttonNumber;
@@ -194,12 +191,28 @@ export default {
     showDialog() {
       this.showPopup = true;
     },
-  }
+
+    async fetchData() {
+      try {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+        this.responseData = response.data;
+      } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+      }
+    },
+  },
+
+  mounted() {
+    this.fetchData();
+  },
 }
 </script>
 
 <template>
   <div class="catalog-view">
+
+
+
     <v-breadcrumbs :breadcrumbs="breadcrumbs" />
     <h1>
       {{ pageTitle }}
@@ -422,17 +435,17 @@ export default {
           </thead>
           <tbody>
           <tr
-            v-for="catalogValue in catalogValues"
+            v-for="catalogValue in this.responseData"
             :key="catalogValue.id"
           >
             <td>
               <div class="v-table__block">
-                <router-link :to="{path: '/catalog/' + catalogValue.id}">{{ catalogValue.name }}</router-link>
+                <router-link :to="{path: '/catalog/' + catalogValue.id}">{{ catalogValue.title }}</router-link>
               </div>
             </td>
             <td >
               <div class="v-table__block">
-                {{ catalogValue.author }}
+                {{ catalogValue.id }}
               </div>
             </td>
             <td>

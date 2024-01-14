@@ -18,19 +18,13 @@ export default {
         return ['neutral', 'primary', 'success', 'warn', 'error'].includes(value)
       }
     },
-    classDisabled: {
-      type: String,
-      validator(value) {
-        return ['disabled'].includes(value)
-      }
-    },
 
   }
 }
 </script>
 
 <template>
-  <button :class="'v-button ' + classSize + ' ' + classColor + ' ' + classDisabled">
+  <button :class="'v-button ' + classSize + ' ' + classColor">
     <slot></slot>
   </button>
 </template>

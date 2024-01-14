@@ -157,7 +157,7 @@ export default {
               @click="showDialog()"
               class-size="large"
               class-color="primary"
-              :class="[this.availability ? 'activeClass' : 'disabled']"
+              :class="{disabled: this.availability}"
             >Зарезервировать</v-button>
             <v-popup-reserve
                 v-model="dateValue"
