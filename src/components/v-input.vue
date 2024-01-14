@@ -122,7 +122,7 @@ export default {
   }
   &__message {
     position: absolute;
-    top: calc(100% + $padding);
+    top: 100%;
     left: 0;
     width: 100%;
     display: none;

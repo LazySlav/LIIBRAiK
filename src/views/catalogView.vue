@@ -5,6 +5,7 @@ import VInput from "@/components/v-input.vue";
 import VButton from "@/components/v-button.vue";
 import VPagination from "@/components/v-pagination.vue";
 import VSortingArrow from "@/components/v-sorting-arrow.vue";
+import VPopupCreateBook from "@/components/v-popup-create-book.vue";
 export default {
   name: 'catalogView',
   components: {
@@ -12,10 +13,15 @@ export default {
     VBreadcrumbs,
     VTable,
     VPagination,
-    VSortingArrow
+    VSortingArrow,
+    VPopupCreateBook,
   },
   data () {
     return {
+      isAdmin: true,
+
+      showPopup: false,
+
       pageTitle: 'Каталог',
       showAdvancedFilterCont: false,
       showAdvancedFilterLink: 'Расширенный поиск',
@@ -31,6 +37,14 @@ export default {
       valueYear: '',
       valuePlace: '',
       valueVolume: '',
+
+      valueTitleNew: '',
+      valueAuthorNew: '',
+      valueYearNew: '',
+      valuePlaceNew: '',
+      valueVolumeNew: '',
+      valueIdNew: '',
+      valueAvailabilityNew: Boolean,
 
       sortingValue: '',
       activeButton: null,
@@ -176,6 +190,9 @@ export default {
     setActiveButton(buttonNumber) {
       this.activeButton = buttonNumber;
     },
+    showDialog() {
+      this.showPopup = true;
+    },
   }
 }
 </script>
@@ -264,6 +281,16 @@ export default {
           </div>
         </form>
       </div>
+
+      <div class="catalog__admin" v-if="isAdmin">
+        <v-button
+          @click="showDialog()"
+          class-color="primary"
+        >
+          Добавить книгу
+        </v-button>
+      </div>
+
       <div class="catalog__info" v-if="catalogValues.length">
         <v-table>
           <thead>
@@ -450,6 +477,15 @@ export default {
     </div>
 
   </div>
+  <v-popup-create-book
+      v-model:show-popup="showPopup"
+      v-model:value-title-model="valueTitleNew"
+      v-model:value-author-model="valueAuthorNew"
+      v-model:value-year-model="valueYearNew"
+      v-model:value-place-model="valuePlaceNew"
+      v-model:value-volume-model="valueVolumeNew"
+      v-model:value-id-model="valueIdNew"
+  />
 </template>
 
 <style lang="scss">
