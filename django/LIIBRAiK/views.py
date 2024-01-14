@@ -11,27 +11,33 @@ from rest_framework import request
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated,
+                          permissions.DjangoModelPermissions]
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated,
+                          permissions.DjangoModelPermissions]
 
 
 class PublisherViewSet(viewsets.ModelViewSet):
     queryset = Publisher.objects.all()
     serializer_class = PublisherSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated,
+                          permissions.DjangoModelPermissions]
 
 
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated,
+                          permissions.DjangoModelPermissions]
 
 
 class ReservationViewSet(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
+    permission_classes = [permissions.IsAuthenticated,
+                          permissions.DjangoModelPermissions]
