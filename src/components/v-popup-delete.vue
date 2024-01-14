@@ -1,18 +1,11 @@
 <script>
 import VButton from "@/components/v-button.vue";
-import VInput from "@/components/v-input.vue";
+
 export default {
-  name: "v-popup-reserve",
-  components: {
-    VButton, VInput
-  },
-  data() {
-    return {
-      dateValue: '',
-    }
-  },
+  name: "v-popup-delete",
+  components: {VButton},
+
   props: {
-    modelValue: String,
     showPopup: {
       type: Boolean,
       default: false,
@@ -28,59 +21,37 @@ export default {
     hidePopup() {
       this.$emit('update:showPopup', false);
     },
-    updateInput () {
-      this.$emit('update:modelValue', this.dateValue);
+    removeBook() {
+      this.$emit('remove', this.id);
       this.hidePopup();
     },
-    cancelReserve() {
-      this.dateValue = this.modelValue;
-
-      this.hidePopup();
-    }
   }
 }
 </script>
 
 <template>
   <div class="v-popup" v-if="showPopup" @click="hidePopup">
-    <form class="v-popup__cont" @click.stop>
+    <div class="v-popup__cont" @click.stop>
       <h3>
-        Резервирование
+        Удаление книги
       </h3>
       <div class="v-popup__text">
-        <p>К какому дню Вы придете за книгой?</p>
+        <p>Вы уверены, что хотите удалить книгу?</p>
       </div>
-      <v-input
-        class="v-popup-reserve__input"
-        placeholder="Введите дату в формате 00/00/0000"
-        message="Поле должно быть заполнено"
-        type="text"
-        id="dateInput"
-        :value="modelValue"
-        v-model="dateValue"
-      />
       <div class="v-popup__bottom">
         <v-button
+            @click="removeBook"
             class-color="error"
             class="v-popup__button"
-            @click="cancelReserve"
-        >Отменить</v-button>
-        <v-button
-            @click.prevent="updateInput"
-            class-color="primary"
-            class="v-popup__button"
-        >Зарезирвировать</v-button>
+        >Удалить</v-button>
+        <v-button class-color="primary" class="v-popup__button" @click="hidePopup">Отменить</v-button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
 @import "../assets/css/_vars.scss";
-.v-popup-reserve__input {
-  width: 100%;
-  margin-bottom: $margin*6;
-}
 .v-popup {
   width: 100%;
   height: 100vh;
@@ -92,7 +63,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-
 
   &__cont {
     width: 400px;
@@ -106,7 +76,7 @@ export default {
     }
   }
   &__text {
-    margin-bottom: $margin*3;
+    margin-bottom: $margin*6;
   }
   &__bottom {
     width: 100%;

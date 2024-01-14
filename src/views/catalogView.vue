@@ -37,6 +37,7 @@ export default {
       valueYear: '',
       valuePlace: '',
       valueVolume: '',
+      valueId: '',
 
       valueTitleNew: '',
       valueAuthorNew: '',
@@ -278,6 +279,13 @@ export default {
                 name="volume"
                 v-model="valueVolume"
             />
+            <v-input
+                id="filterId"
+                placeholder="Идентификатор"
+                type="text"
+                name="filterId"
+                v-model="valueId"
+            />
           </div>
         </form>
       </div>
@@ -490,6 +498,9 @@ export default {
 
 <style lang="scss">
 @import "@/assets/css/vars";
+.catalog__admin {
+  padding: $padding*3 0;
+}
 .sorting-block {
   display: inline-flex;
   align-items: center;

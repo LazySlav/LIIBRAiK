@@ -29,9 +29,9 @@ export default {
     <v-cont>
       <div class="v-footer__cont">
         <div class="v-footer__col">
-          <a href="/" class="v-footer__logo">
+          <span class="v-footer__logo">
             <img src="../assets/img/logo-header.png" alt="">
-          </a>
+          </span>
         </div>
         <div class="v-footer__col">
           <div class="v-footer__text">

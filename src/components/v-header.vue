@@ -16,9 +16,9 @@ export default {
     <v-cont>
       <div class="header__cont">
         <div class="header__col">
-          <a href="/" class="header__logo">
+          <span class="header__logo">
             <img src="../assets/img/logo-header.png" alt="">
-          </a>
+          </span>
         </div>
         <div class="header__col">
           <div class="header__row">

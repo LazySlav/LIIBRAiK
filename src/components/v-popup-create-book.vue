@@ -41,9 +41,6 @@ import VButton from "@/components/v-button.vue";
      updateInput(model, value) {
        this.$emit(`update:${model}`,  value);
      },
-     formSubmit() {
-
-     }
    }
  }
 </script>
@@ -117,7 +114,7 @@ import VButton from "@/components/v-button.vue";
         />
         <div class="v-popup__bottom">
           <v-button
-              @click.prevent="formSubmit"
+              @click.prevent="hidePopup"
               class-color="success"
           >Добавить</v-button>
         </div>
@@ -125,6 +122,7 @@ import VButton from "@/components/v-button.vue";
 
     </div>
   </div>
+
 </template>
 
 <style scoped lang="scss">

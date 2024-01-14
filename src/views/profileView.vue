@@ -85,6 +85,7 @@ export default {
             <v-button
               class-color="error"
               class-size="mid"
+              @click="$router.push('/')"
             >Выйти</v-button>
           </div>
         </div>

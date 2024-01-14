@@ -3,137 +3,62 @@ import VBreadcrumbs from "@/components/v-breadcrumbs.vue";
 import VBlock from "@/components/v-block.vue";
 import VButton from "@/components/v-button.vue";
 import VPopupReserve from "@/components/v-popup-reserve.vue";
+import VPopupEditBook from "@/components/v-popup-edit-book.vue";
+import VPopupDelete from "@/components/v-popup-delete.vue";
 export default {
   name: 'catalogItemView',
   components: {
     VBreadcrumbs,
     VBlock, VButton,
-    VPopupReserve
+    VPopupReserve,
+    VPopupEditBook,
+    VPopupDelete,
   },
   data () {
     return {
       dialogVisible: false,
+      showPopup: false,
+      showPopupDelete: false,
       popupId: false,
       dateValue: '',
 
+      isAdmin: true,
+
+      id: 1,
+      name: "Геодезический мониторинг движений земной коры (по материалам Кавказского региона). В. Р. Ященко, Х. К. Ямбаев",
+      author: "Ященко В.Р. / Ямбаев Х.К.",
+      year: 2007,
+      place: "МИИГАиК М.",
+      idBook: "РБ.6 Я 958",
+      volume: "208",
+      availability: true,
+
       breadcrumbs: [
         {
-          path: '/',
+          path: '/catalog',
           name: 'Главная',
         },
         {
           path: '/catalog',
           name: 'Каталог',
         },
-      ],
-      catalogValues: [
         {
-          id: 1,
-          name: "Геодезический мониторинг движений земной коры (по материалам Кавказского региона). В. Р. Ященко, Х. К. Ямбаев",
-          author: "Ященко В.Р. / Ямбаев Х.К.",
-          year: 2007,
-          place: "МИИГАиК М.",
-          idBook: "РБ.6 Я 958",
-          volume: "208",
-          availability: true,
-        },
-        {
-          id: 2,
-          name: "Геодезия и картография на современном этапе развития 1919 - 1989. В. Р. Ященко, В. Д. Большаков , А.А.Дражнюк и др.",
-          author: "Ященко В.Р. / Большаков В.Д. / Дражнюк и др. А.А.",
-          year: 1989,
-          place: "Недра М.",
-          idBook: "РА.1 Г 367",
-          volume: "160 ил.",
-          availability: true,
-        },
-        {
-          id: 3,
-          name: "Геодезические исследования вертикальных движений земной коры. В. Р. Ященко",
-          author: "Ященко В.Р.",
-          year: 1989,
-          place: "Недра М.",
-          idBook: "ФИ.2 Я 985",
-          volume: "192 ил.",
-          availability: false,
-        },
-        {
-          id: 4,
-          name: "По геодезическим маршрутам. В. Р. Ященко",
-          author: "Ященко В.Р.",
-          year: 1990,
-          place: "Недра М.",
-          idBook: "РА Я 985",
-          volume: "95 ил.",
-          availability: false,
-        },
-        {
-          id: 5,
-          name: "Будни первопроходцев. В. Р. Ященко",
-          author: "Ященко В.Р.",
-          year: 2006,
-          place: "ПКО \"Картография\" М.",
-          idBook: "РА Я 958",
-          volume: "163 ил.",
-          availability: true,
-        },
-        {
-          id: 6,
-          name: "Геодезический мониторинг движений земной коры (по материалам Кавказского региона). В. Р. Ященко, Х. К. Ямбаев",
-          author: "Ященко В.Р. / Ямбаев Х.К.",
-          year: 2007,
-          place: "МИИГАиК М.",
-          idBook: "РБ.6 Я 958",
-          volume: 208,
-          availability: true,
-        },
-        {
-          id: 7,
-          name: "Геодезический мониторинг движений земной коры (по материалам Кавказского региона). В. Р. Ященко, Х. К. Ямбаев",
-          author: "Ященко В.Р. / Ямбаев Х.К.",
-          year: 2007,
-          place: "МИИГАиК М.",
-          idBook: "РБ.6 Я 958",
-          volume: 208,
-          availability: true,
-        },
-        {
-          id: 8,
-          name: "Геодезический мониторинг движений земной коры (по материалам Кавказского региона). В. Р. Ященко, Х. К. Ямбаев",
-          author: "Ященко В.Р. / Ямбаев Х.К.",
-          year: 2007,
-          place: "МИИГАиК М.",
-          idBook: "РБ.6 Я 958",
-          volume: 208,
-          availability: true,
-        },
-        {
-          id: 9,
-          name: "Геодезический мониторинг движений земной коры (по материалам Кавказского региона). В. Р. Ященко, Х. К. Ямбаев",
-          author: "Ященко В.Р. / Ямбаев Х.К.",
-          year: 2007,
-          place: "МИИГАиК М.",
-          idBook: "РБ.6 Я 958",
-          volume: 208,
-          availability: true,
-        },
-        {
-          id: 10,
-          name: "Геодезический мониторинг движений земной коры (по материалам Кавказского региона). В. Р. Ященко, Х. К. Ямбаев",
-          author: "Ященко В.Р. / Ямбаев Х.К.",
-          year: 2007,
-          place: "МИИГАиК М.",
-          idBook: "РБ.6 Я 958",
-          volume: 208,
-          availability: true,
+          path: '/catalog/',
+          name: 'Детальная страница книги',
         },
       ],
+
     }
   },
   methods: {
     showDialog() {
-      // this.popupId = id;
       this.dialogVisible = true;
+    },
+    showPopupEdit() {
+      this.showPopup = true;
+    },
+    showPopupDel() {
+      this.showPopupDelete = true;
     },
   }
 }
@@ -142,12 +67,30 @@ export default {
 <template>
   <div class="catalog-item">
     <v-breadcrumbs :breadcrumbs="breadcrumbs" />
-    <div v-for="book in catalogValues" :key="book.id">
-      <div v-if="book.id == $route.params.id">
+    <div>
+      <div>
         <div class="catalog-item__content">
           <h1>
-            {{ book.name }}
+            {{ this.name }}
           </h1>
+          <div class="catalog-item__admin" v-if="isAdmin">
+            <v-button
+                class="catalog-item__admin-button"
+                class-color="warn"
+                class-size="mid"
+                @click="showPopupEdit"
+            >
+              Редактировать
+            </v-button>
+            <v-button
+              class="catalog-item__admin-button"
+              class-color="error"
+              class-size="mid"
+              @click="showPopupDel"
+            >
+              Удалить
+            </v-button>
+          </div>
           <div class="catalog-item__body">
             <div class="catalog-item__col">
               <div class="catalog-item__img">
@@ -165,7 +108,7 @@ export default {
                       Авторы
                     </div>
                     <div class="catalog-item__info-text">
-                      {{ book.author }}
+                      {{ this.author }}
                     </div>
                   </div>
                   <div class="catalog-item__info-line">
@@ -173,7 +116,7 @@ export default {
                       Кол-во страниц
                     </div>
                     <div class="catalog-item__info-text">
-                      {{ book.volume }}
+                      {{ this.volume }}
                     </div>
                   </div>
                   <div class="catalog-item__info-line">
@@ -182,7 +125,7 @@ export default {
                     </div>
                     <div
                         class="catalog-item__info-text"
-                        v-if="book.availability"
+                        v-if="this.availability"
                     >
                       <span class="color-success">
                         Есть
@@ -202,7 +145,7 @@ export default {
                       Год и место издания
                     </div>
                     <div class="catalog-item__info-text">
-                      {{ book.year }} {{ book.place }}
+                      {{ this.year }} {{ this.place }}
                     </div>
                   </div>
                 </div>
@@ -214,7 +157,7 @@ export default {
               @click="showDialog()"
               class-size="large"
               class-color="primary"
-              :class="[book.availability ? 'activeClass' : 'disabled']"
+              :class="[this.availability ? 'activeClass' : 'disabled']"
             >Зарезервировать</v-button>
             <v-popup-reserve
                 v-model="dateValue"
@@ -227,12 +170,42 @@ export default {
 
 
   </div>
+  <div v-if="isAdmin">
+    <v-popup-edit-book
+        v-model:show-popup="showPopup"
+        v-model:value-title-model="name"
+        v-model:value-author-model="author"
+        v-model:value-year-model="year"
+        v-model:value-place-model="place"
+        v-model:value-volume-model="volume"
+        v-model:value-id-model="idBook"
+    />
+  </div>
+  <v-popup-delete
+      :id="this.id"
+      v-model:show-popup="showPopupDelete"
+
+  />
+
 </template>
 
 <style lang="scss">
 @import "@/assets/css/vars";
 .catalog-item {
   width: 100%;
+
+  &__admin {
+    width: 100%;
+    padding: $padding*3 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    &-button {
+      margin-right: $margin*4;
+    }
+  }
+
   &__content {
     width: 100%;
   }
