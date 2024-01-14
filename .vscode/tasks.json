@@ -39,7 +39,8 @@
             "command": "${command:python.interpreterPath}",
             "args": [
                 "django/manage.py",
-                "makemigrations"
+                "makemigrations",
+                "LIIBRAiK"
             ],
             "group": {
                 "kind": "build",
