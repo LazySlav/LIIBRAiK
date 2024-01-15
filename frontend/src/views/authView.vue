@@ -31,10 +31,10 @@ export default {
 
     async sendPostRequest() {
       try {
-        const response = await axios.post('/auth/login', {}, {
+        const response = await axios.post('http://127.0.0.1:8000/auth/login/', {}, {
           auth: {
-            username: 'uname',
-            password: 'pass',
+            username: this.loginInput,
+            password: this.passwordInput,
           }
         });
 
